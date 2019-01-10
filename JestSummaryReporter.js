@@ -11,9 +11,7 @@ class JestSummaryReporter {
   onRunComplete(contexts, results) {
     console.log('\n\nSummary reporter output:');
     if (this.options.diffs) {
-      console.log('\nDiffs of failed tests:');
       printFailedTestDiffs(results);
-      console.log('Summary:');
     }
     printSummary(results);
   }
@@ -21,18 +19,26 @@ class JestSummaryReporter {
 
 
 function printFailedTestDiffs(results) {
-  results.testResults
-    .filter(suiteResult => suiteResult.failureMessage)
-    .map(suiteResult => {
-      return {
-        path: processFullPath(suiteResult.testFilePath),
-        msg: suiteResult.failureMessage,
-        toString() {
-          return `${black(bgLightRed(" FAIL "))} ${this.path}\n${this.msg}`;
+  let failedSuites = results.testResults
+    .filter(suiteResult => suiteResult.failureMessage);
+
+  if (failedSuites.length > 0) {
+    console.log('\nDiffs of failed tests:');
+
+    failedSuites
+      .map(suiteResult => {
+        return {
+          path: processFullPath(suiteResult.testFilePath),
+          msg: suiteResult.failureMessage,
+          toString() {
+            return `${black(bgLightRed(" FAIL "))} ${this.path}\n${this.msg}`;
+          }
         }
-      }
-    })
-    .forEach(failedSuite => console.log(failedSuite.toString()));
+      })
+      .forEach(failedSuite => console.log(failedSuite.toString()));
+
+    console.log('Summary:');
+  }
 }
 
 function printSummary(results) {
