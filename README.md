@@ -56,3 +56,7 @@ With `diffs` option:
 When all tests pass:
 
 [![jestsummaryreportersuccess](https://user-images.githubusercontent.com/46559896/50972424-46424c00-14ef-11e9-8c21-8f986d9d2379.png)](https://user-images.githubusercontent.com/46559896/50972424-46424c00-14ef-11e9-8c21-8f986d9d2379.png)
+
+## License
+
+Unlicense
