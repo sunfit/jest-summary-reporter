@@ -1,3 +1,7 @@
+const { red, green, black, bgLightGreen, bgLightRed, lightRed, white, yellow } = require('./utils/BashColorUtils');
+const timeObj = require('./utils/TimeUtils').timestampToTimeObject;
+const { processFullPath } = require('./utils/PathUtils');
+
 class JestSummaryReporter {
   constructor(globalConfig, options) {
     this.globalConfig = globalConfig;
@@ -8,16 +12,46 @@ class JestSummaryReporter {
     console.log('\n\nSummary reporter output:');
     if (this.options.diffs) {
       console.log('\nDiffs of failed tests:');
-      results.testResults
-        .map(testResult => testResult.failureMessage)
-        .filter(msg => msg)
-        .forEach(msg => console.log(msg));
+      printFailedTestDiffs(results);
       console.log('Summary:');
     }
-    results.testResults.forEach(printSuiteResults);
+    printSummary(results);
   }
 }
 
+
+function printFailedTestDiffs(results) {
+  results.testResults
+    .filter(suiteResult => suiteResult.failureMessage)
+    .map(suiteResult => {
+      return {
+        path: processFullPath(suiteResult.testFilePath),
+        msg: suiteResult.failureMessage,
+        toString() {
+          return `${black(bgLightRed(" FAIL "))} ${this.path}\n${this.msg}`;
+        }
+      }
+    })
+    .forEach(failedSuite => console.log(failedSuite.toString()));
+}
+
+function printSummary(results) {
+  let {
+    numTotalTestSuites: totalSuites,
+    numPassedTestSuites: passedSuites,
+    numTotalTests: totalTests,
+    numPassedTests: passedTests,
+    numFailedTests: failedTests
+  } = results;
+  let failedSuites = totalSuites - passedSuites;
+
+  let failed = failedSuites > 0;
+  console.log(`Suites: ${failed ? lightRed(failedSuites) : green(passedSuites)}/${white(totalSuites)}`);
+  console.log(`Tests:  ${failed ? lightRed(failedTests) : green(passedTests)}/${white(totalTests)}`);
+  console.log(`Time:   ${timeObj(Date.now() - results.startTime)}`);
+  console.log();
+  results.testResults.forEach(printSuiteResults);
+}
 
 function printSuiteResults(suiteResult) {
   let failNum = suiteResult.numFailingTests;
@@ -25,12 +59,17 @@ function printSuiteResults(suiteResult) {
   let pendingNum = suiteResult.numPendingTests;
   let failed = failNum > 0;
 
+  let state = black(failed ? bgLightRed(" FAIL ") : bgLightGreen(" PASS "));
+  let path = processFullPath(suiteResult.testFilePath);
+
   let failureRatio = `${lightRed(failNum)}/${white(failNum + passNum + pendingNum)}`;
   let failureRatioLiteral = failed ? failureRatio : "";
 
-  let state = black(failed ? bgLightRed(" FAIL ") : bgLightGreen(" PASS "));
-  let path = getPath(suiteResult);
-  console.log(`${state} ${path.path}${white(path.file)} ${failureRatioLiteral}`);
+  let duration = suiteResult.perfStats.end - suiteResult.perfStats.start;
+  let durationLiteral = duration > 0 ? `(${duration}ms)` : "";
+  durationLiteral = failed ? red(durationLiteral) : green(durationLiteral);
+
+  console.log(`${state} ${path} ${failureRatioLiteral} ${durationLiteral}`);
   if (failNum > 0) {
     printFailedTestNames(suiteResult);
   }
@@ -44,44 +83,6 @@ function printFailedTestNames(suiteResult) {
       console.log(`${red('  ?')} ${testResult.fullName} ${yellow(durationLiteral)}`);
     }
   })
-}
-
-
-function getPath(suiteResult) {
-  let pathSeparationPattern = /^(.+)(test\\.+\\)(.+)$/;
-  let pathSeparationResult = suiteResult.testFilePath.match(pathSeparationPattern);
-  //Can happen if there is no `test` folder on the path
-  if (!pathSeparationResult) {
-    return {
-      path: "",
-      file: slash(suiteResult.testFilePath.match(/(.+\\)(.+)$/)[2])
-    }
-  } else {
-    return {
-      path: slash(pathSeparationResult[2]),
-      file: slash(pathSeparationResult[3])
-    }
-  }
-
-  function slash(s) {
-    return s.replace(/\\/g, "/")
-  }
-}
-
-
-let bgLightRed = colorize("\x1b[101m");
-let bgLightGreen = colorize("\x1b[102m");
-let black = colorize("\x1b[30m");
-let white = colorize("\x1b[1m");
-let red = colorize("\x1b[31m");
-let lightRed = colorize("\x1b[91m");
-let yellow = colorize("\x1b[33m");
-
-function colorize(color) {
-  let reset = "\x1b[0m";
-  return function(s) {
-    return color + s + reset;
-  }
 }
 
 module.exports = JestSummaryReporter;
