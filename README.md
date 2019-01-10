@@ -11,7 +11,7 @@ Tested only on my windows machine with a simple pet project.
 
 If you have any questions or suggestions contact me by e-mail.
 
-It came to my attention (a little to late) that at least 3 packages with same functionality already exist [npm search results for jest summary reporters](https://www.npmjs.com/search?q=jest%20summary%20reporter)
+It came to my attention (a little too late) that at least 3 packages with same functionality already exist [npm search results for jest summary reporters](https://www.npmjs.com/search?q=jest%20summary%20reporter)
 
 So if you have found this repo but it is not working out for you for some reason, check out above link.
 
