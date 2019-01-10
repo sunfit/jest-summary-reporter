@@ -1,4 +1,4 @@
-# Jest summary reporter
+# Jest summarizing reporter
 
 Custom reporter for Jest that only prints the summary of the test run.
 
