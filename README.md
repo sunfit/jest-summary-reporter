@@ -14,7 +14,7 @@ If you have any questions or suggestions contact me by e-mail.
 ## Installation
 
 ```
-npm i -D jest-summary-reporter
+npm i -D jest-summarizing-reporter
 ```
 
 ## Usage
@@ -22,13 +22,13 @@ npm i -D jest-summary-reporter
 CLI:
 
 ```
-jest --reporters jest-summary-reporter
+jest --reporters jest-summarizing-reporter
 ```
 Jest Config:
 
 ```
 {
-  "reporters": ["jest-summary-reporter"]
+  "reporters": ["jest-summarizing-reporter"]
 }
 ```
 
@@ -39,7 +39,7 @@ If enabled prints jests default error explanations before the summary
 ```
 {
   "reporters": [
-    ["jest-summary-reporter", {diffs: true}]
+    ["jest-summarizing-reporter", {diffs: true}]
   ]
 }
 ```
