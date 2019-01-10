@@ -1,6 +1,6 @@
 # Jest summarizing reporter
 
-Custom reporter for Jest that only prints the summary of the test run.
+Custom reporter for Jest that only prints the summary of the test run. With `diffs` option, also prints the default error messages aka diffs before the summary [example](#withDiffsExmaple).
 
 [![jestsummaryreporternodiffssmall](https://user-images.githubusercontent.com/46559896/50974595-455fe900-14f4-11e9-8a5b-c69d367926d5.png)](https://user-images.githubusercontent.com/46559896/50974595-455fe900-14f4-11e9-8a5b-c69d367926d5.png)
 
@@ -54,7 +54,7 @@ Default output:
 
 [![jestsummaryreporternodiffs](https://user-images.githubusercontent.com/46559896/50972422-45a9b580-14ef-11e9-9d64-62202d00c6f9.png)](https://user-images.githubusercontent.com/46559896/50972422-45a9b580-14ef-11e9-9d64-62202d00c6f9.png)
 
-With `diffs` option:
+<a name="withDiffsExmaple"></a>With `diffs` option:
 
 [![jestsummaryreporter](https://user-images.githubusercontent.com/46559896/50972423-46424c00-14ef-11e9-8218-40459b150cde.png)](https://user-images.githubusercontent.com/46559896/50972423-46424c00-14ef-11e9-8218-40459b150cde.png)
 
