@@ -63,7 +63,7 @@ function printSuiteResults(suiteResult) {
   let failNum = suiteResult.numFailingTests;
   let passNum = suiteResult.numPassingTests;
   let pendingNum = suiteResult.numPendingTests;
-  let failed = failNum > 0;
+  let failed = failNum > 0 || suiteResult.failureMessage;
 
   let state = black(failed ? bgLightRed(" FAIL ") : bgLightGreen(" PASS "));
   let path = processFullPath(suiteResult.testFilePath);
