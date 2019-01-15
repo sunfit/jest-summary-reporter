@@ -13,7 +13,7 @@
     "summary"
   ],
   "author": "Konstantin <lebedev.k90@gmail.com>",
-  "license": "MIT",
+  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/sunfit/jest-summary-reporter/issues"
   },
