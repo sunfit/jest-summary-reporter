@@ -1,6 +1,6 @@
 {
   "name": "jest-summarizing-reporter",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Custom reporter for jest, that only prints test result summary.",
   "main": "JestSummaryReporter.js",
   "scripts": {
