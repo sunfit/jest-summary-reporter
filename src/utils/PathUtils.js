@@ -1,5 +1,3 @@
-const { white } = require('./BashColorUtils');
-
 function processFullPath(fullPath) {
   let pathSeparationPattern = /^(.+)(test\\.+\\)(.+)$/;
   let pathSeparationResult = fullPath.match(pathSeparationPattern);
@@ -20,10 +18,7 @@ function processFullPath(fullPath) {
 function path({path, file}) {
   return {
     path,
-    file,
-    toString() {
-      return this.path + white(this.file);
-    }
+    file
   }
 }
 

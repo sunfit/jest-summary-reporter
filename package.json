@@ -3,6 +3,9 @@
   "version": "1.0.6",
   "description": "Custom reporter for jest, that only prints test result summary.",
   "main": "JestSummaryReporter.js",
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sunfit/jest-summary-reporter.git"
@@ -17,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/sunfit/jest-summary-reporter/issues"
   },
-  "homepage": "https://github.com/sunfit/jest-summary-reporter#readme"
+  "homepage": "https://github.com/sunfit/jest-summary-reporter#readme",
+  "devDependencies": {
+    "jest": "^24.1.0"
+  }
 }
