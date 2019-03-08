@@ -53,11 +53,12 @@ function printSummary(results) {
   let {
     numTotalTestSuites: totalSuites,
     numPassedTestSuites: passedSuites,
+    numPendingTestSuites: pendingSuites,
     numTotalTests: totalTests,
     numPassedTests: passedTests,
     numFailedTests: failedTests
   } = results;
-  let failedSuites = totalSuites - passedSuites;
+  let failedSuites = totalSuites - passedSuites - pendingSuites;
   let failed = failedSuites > 0;
 
   print('Summary:');
