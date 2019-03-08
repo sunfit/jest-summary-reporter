@@ -1,18 +1,18 @@
+let pathModule = require('path');
+
+const regexPathSeparator = pathModule.sep === '/' ? '/' : '\\\\';
+
 function processFullPath(fullPath) {
-  let pathSeparationPattern = /^(.+)(test\\.+\\)(.+)$/;
-  let pathSeparationResult = fullPath.match(pathSeparationPattern);
-  //Can happen if there is no `test` folder on the path
-  if (!pathSeparationResult) {
-    return path({
-      path: "",
-      file: slash(fullPath.match(/(.+\\)(.+)$/)[2])
-    })
-  } else {
-    return path({
-      path: slash(pathSeparationResult[2]),
-      file: slash(pathSeparationResult[3])
-    })
-  }
+  const cwd = process.cwd();
+  const noCwdPath = fullPath.replace(cwd, "");
+
+  const pathSeparationPattern = new RegExp(`(${regexPathSeparator}.+${regexPathSeparator})(.+)$`);
+  const pathSeparationResult = noCwdPath.match(pathSeparationPattern);
+
+  return path({
+    path: slash(pathSeparationResult[1]),
+    file: slash(pathSeparationResult[2])
+  })
 }
 
 function path({path, file}) {
