@@ -61,10 +61,11 @@ function printSummary(results) {
     numTotalTests: totalTests,
     numPassedTests: passedTests,
     numFailedTests: failedTests,
-    success
+    numRuntimeErrorTestSuites: erroredTests,
+    snapshot
   } = results;
   let failedSuites = totalSuites - passedSuites - pendingSuites;
-  let failed = !success;
+  let failed = failedTests > 0 || erroredTests > 0 || snapshot.failure;
 
   print('Summary:');
   print(`Suites: ${failed ? lightRed(failedSuites) : green(passedSuites)}/${white(totalSuites)}`);
