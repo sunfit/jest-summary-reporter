@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/sunfit/jest-summary-reporter#readme",
   "devDependencies": {
-    "jest": "^24.1.0"
+    "jest": "^24.9.0"
   }
 }
