@@ -11,6 +11,7 @@ class JestSummaryReporter {
   }
 
   onRunComplete(contexts, results) {
+    const { snapshot } = results;
     println(2);
 
     print(lightYellow('Summary reporter output:'));
@@ -21,6 +22,9 @@ class JestSummaryReporter {
       printFailedTestDiffs(results);
     }
     printFailedSuites(results);
+    if (snapshot.failure) {
+      printUncheckedSnapshotsSummary(snapshot);
+    }
     printSummary(results);
   }
 }
@@ -56,10 +60,11 @@ function printSummary(results) {
     numPendingTestSuites: pendingSuites,
     numTotalTests: totalTests,
     numPassedTests: passedTests,
-    numFailedTests: failedTests
+    numFailedTests: failedTests,
+    success
   } = results;
   let failedSuites = totalSuites - passedSuites - pendingSuites;
-  let failed = failedSuites > 0;
+  let failed = !success;
 
   print('Summary:');
   print(`Suites: ${failed ? lightRed(failedSuites) : green(passedSuites)}/${white(totalSuites)}`);
@@ -109,6 +114,17 @@ function printFailedSuites(results) {
   }
 }
 
+function printUncheckedSnapshotsSummary(snapshot) {
+  print(`${bgLightRed(black(" UNUSED SNAPSHOTS "))}  found. 'npm t -- -u' to remove them`);
+  snapshot.uncheckedKeysByFile
+    .forEach(printAsFailure);
+  println(2);
+
+  function printAsFailure(file) {
+    let path = processFullPath(file.filePath);
+    print(`${path.path}${white(path.file)}`);
+  }
+}
 
 function suiteFailed(suite) {
   return suite.numFailingTests > 0 || suite.failureMessage;
